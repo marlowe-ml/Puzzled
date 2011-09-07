@@ -1,0 +1,28 @@
+#include "Puzzle.h"
+#include "ScreenManager.h"
+#include "ResourceManager.h"
+
+using namespace puz;
+
+Puzzle::Puzzle() 
+: 
+_app(sf::RenderWindow(sf::VideoMode(800,600,32), "Puzzle"))
+{}
+
+int Puzzle::run() {
+
+	ScreenManager::init(_app);
+	ResourceManager::init();
+
+	ScreenManager::activateScreen("Intro");
+
+	while (_app.IsOpened()) {
+		_app.Clear();
+		ScreenManager::runActiveScreen();
+		_app.Display();
+	}
+
+	ScreenManager::cleanup();
+
+	return EXIT_SUCCESS;
+}
