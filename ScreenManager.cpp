@@ -18,13 +18,18 @@ void ScreenManager::init(sf::RenderWindow& app)
 
 const Layout& ScreenManager::getLayout() {return _screenLayout;}
 
-bool ScreenManager::activateScreen(const std::string& screenId) {
+bool ScreenManager::TerminateCurrentScreenAndActivate(const std::string& screenId) {
+	if (_activeScreen != NULL) {
+		_activeScreen->terminate();
+	}
+	
 	ScreenMap::iterator it = _screens.find(screenId);
 	
 	Screen* screen = 0;
 
 	if (it == _screens.end()) {
 		screen = createScreen(screenId);
+		_screens.insert(std::pair<std::string, Screen*>(screenId, screen));
 	} else {
 		screen = it->second;		
 	}
@@ -49,8 +54,12 @@ void ScreenManager::cleanup() {
 	_screens.clear();
 }
 
-void ScreenManager::runActiveScreen() {
+bool ScreenManager::runActiveScreen() {
+	if (_activeScreen == NULL)
+		return false;
+
 	_activeScreen->run();
+	return true;
 }
 
 Screen* ScreenManager::createScreen(const std::string& screenId) {
@@ -65,14 +74,22 @@ Screen* ScreenManager::createScreen(const std::string& screenId) {
 	if (screenId == "MainMenu")
 		newScreen = new MainMenuScreen();
 
+	if (newScreen != 0)
+		newScreen->setScreenId(screenId);
+
 	return newScreen;
 }
 
 void ScreenManager::notifyScreenTerminated(const std::string& screenId) {
 	ScreenMap::iterator it = _screens.find(screenId);
 	if (it!=_screens.end()) {
+		bool isActive = (it->second->getScreenId() == screenId);
+
 		delete it->second;
 		_screens.erase(it);
+
+		if (isActive)
+			_activeScreen = NULL;			
 	}
 
 }

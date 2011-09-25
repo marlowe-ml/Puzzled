@@ -8,16 +8,17 @@ namespace puz {
 	class Label : public sf::Drawable {
 	
 	public:
-		Label(sf::String const text);
+		Label(const sf::String& text);
 
 		virtual void Render(sf::RenderTarget& target) const;
 		sf::FloatRect GetRect() const;
 
 		void SetColor(const sf::Color& color);
+		void SetFont(const sf::Font& font);
 
 	private:
 		sf::String _text;
-
+		Label() {}
 
 	};
 }

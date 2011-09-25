@@ -24,8 +24,10 @@ Screen::Screen() : _isTerminated(false), _isInitialized(false)
 			 }
 		 }
 		 
-		 update();
-		 present();
+		 if	(!_isTerminated)
+			update();
+		 if	(!_isTerminated)
+			present();
 	 }
 	 return EXIT_SUCCESS;
  }
@@ -51,4 +53,8 @@ int Screen::onInit() {return EXIT_SUCCESS;}
 
  void Screen::setScreenId(const std::string& newScreenId) {
 	_screenId = newScreenId;
+ }
+
+ const std::string& Screen::getScreenId() const {
+	return _screenId;
  }

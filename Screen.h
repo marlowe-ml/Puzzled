@@ -15,8 +15,9 @@ namespace puz {
 			int run();
 			void terminate();
 			void setScreenId(const std::string& newScreenId);
-			inline bool isTerminated() {return _isTerminated;}
-			inline bool isInitialized() {return _isInitialized;}
+			const std::string& getScreenId() const;
+			inline bool isTerminated() const {return _isTerminated;}
+			inline bool isInitialized() const {return _isInitialized;}
 
 		protected:
 			sf::RenderWindow* _app;

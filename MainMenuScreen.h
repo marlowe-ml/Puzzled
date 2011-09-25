@@ -12,6 +12,8 @@ namespace puz {
 	public:
 
 	protected:
+		enum MenuSelection {btnNewGame, btnExit, btnLength};
+
 		virtual void handleEvent(const sf::Event& e);
 		virtual void update();
 		virtual void present();
@@ -20,7 +22,13 @@ namespace puz {
 
 	private:
 		vLabels _menuButtons;
+		int _selectedButtonIndex;
 
+		void setSelectedButton(MenuSelection selectedButton);
+		void selectPreviousButton();
+		void selectNextButton();
+
+		void activateSelectedButton();
 	};
 
 }

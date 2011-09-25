@@ -2,8 +2,9 @@
 
 using namespace puz;
 
-Label::Label(sf::String const text) : _text(text) 
+Label::Label(const sf::String& text) : _text(text) 
 {}
+
 
 void Label::Render(sf::RenderTarget& target) const {
 	target.Draw(_text);
@@ -15,5 +16,9 @@ sf::FloatRect Label::GetRect() const {
 
 void Label::SetColor(const sf::Color& color) {
 	_text.SetColor(color);
+}
+
+void Label::SetFont(const sf::Font& font) {
+	_text.SetFont(font);
 }
 

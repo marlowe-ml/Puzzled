@@ -14,12 +14,13 @@ int Puzzle::run() {
 	ScreenManager::init(_app);
 	ResourceManager::init();
 
-	ScreenManager::activateScreen("Intro");
+	ScreenManager::TerminateCurrentScreenAndActivate("Intro");
 
 	while (_app.IsOpened()) {
 		_app.Clear();
 		ScreenManager::runActiveScreen();
-		_app.Display();
+		if (_app.IsOpened())
+			_app.Display();
 	}
 
 	ScreenManager::cleanup();
