@@ -1,0 +1,92 @@
+[OK] basics
+[OK] move tiles
+[OK] refactor board grid, remove coordinates from tile class
+[OK] use main puzzle class
+[OK] center board
+[OK] use boost::optional to avoid redundant default constructors and introducing pointers
+[OK] randomize board
+[OK] svn setup
+[OK] detect when solved
+[OK] display text
+[OK] display number of moves
+[OK] keep track of all labels using a vector (or map?) to init and draw all of them - vector allows clear ordering, which is important
+[OK] add utility functions to positions things on the screen (left, right, top, bottom, center)
+[OK] display time taken
+[OK] check other sources for inspiration, game states, game loop, fps (pong clone for instance)
+[OK] introduce screens
+[OK] make Screen a base class
+[OK] add intro screen
+[OK] solve how to manage and transition between screens
+[OK] idea: use screenmanager with lazy loading of screens and lookup by identifier
+	e.g. in intro screen:
+		if (keyPressed) {
+			this->terminate();	// dispose this state as we will never return to it
+			// transition to game screen
+			Screen& gameScreen = screenManager.get("Game");	// screenmanager could hold instance to _app / shared global state..
+			gameScreen.init();
+			gameScreen.run();
+		}
+[OK] check terminate / exact transition from one screen to the other
+[OK] screenmanager should check if a screen is initialized instead of putting that logic into the screen run loop
+[] game states
+	[OK] intro
+	[] main menu
+	[OK] normal game mode
+		init board (ramdomize etc.)
+		pause
+		game solved
+
+[] read the bookmarks under _read
+[] organize shared "global" state (clock, etc.)
+
+	
+ScreenManager::getMainScreenLayout();
+	
+GameScreen:
+if ESC key pressed
+	Screen& optionsScreen = ScreenManager::getScreen("Options");
+	optionsScreen.setBackgroundScreen(*this);	// update and draw in background, skip event handling (runWithoutEvents in ScreenClass)
+	optionsScreen.init();
+	optionsScreen.run();
+	
+OptionsScreen:
+	backgroundScreen.runWithoutEvents();
+	if QUIT
+		if (confirm)
+			Screen& gameScreen = ScreenManager::getScreen("Game");
+			gameScreen.terminate()
+	if CANCEL / RETURN
+		hide() (terminate()?)
+	if OPTIONS changed
+		adjust
+		
+	
+	
+Without screens:
+showIntro();
+while(..) {
+	handleEvents
+		if (ESC key pressed)
+			showOptions()
+	update
+	present
+}
+
+[] bug: after randomize, the empty tile is not the bottom right tile anymore --> make sure empty tile is also moved
+[] finish
+1.0
+[] visualize move directions
+[] show finalized puzzle image (scaled down)
+[] animation
+[] timer
+[] pause game
+[] highscores
+[] save game
+[] load game
+[] sound
+[] tweak, optimize, polish
+[] challenge mode (against the clock)
+2.0
+[] android version
+	[] take photo, convert to puzzle
+
