@@ -10,6 +10,7 @@ namespace puz {
 
 	class MainMenuScreen : public Screen {
 	public:
+		virtual ~MainMenuScreen();
 
 	protected:
 		enum MenuSelection {btnNewGame, btnExit, btnLength};

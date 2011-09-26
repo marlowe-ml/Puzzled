@@ -22,14 +22,15 @@ namespace puz {
 
 	private:
 		static sf::RenderWindow* _app;
+		static Layout _screenLayout;
 
 		static ScreenMap _screens;
 		static Screen* _activeScreen;
+		static bool _cleanupTerminatedScreens;
 
 		static Screen* createScreen(const std::string& screenId);
+		static void ScreenManager::cleanupTerminatedScreens();
 
-		static Layout _screenLayout;
-		
 	};
 }
 

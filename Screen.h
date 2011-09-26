@@ -29,10 +29,7 @@ namespace puz {
 			virtual void update() = 0;
 			virtual void present() = 0;
 			virtual void onTerminate();
-			virtual int onInit();
-
-
-			
+			virtual int onInit();			
 
 	};
 

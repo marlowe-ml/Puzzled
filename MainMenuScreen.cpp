@@ -4,6 +4,9 @@
 
 using namespace puz;
 
+MainMenuScreen::~MainMenuScreen() {
+}
+
 
 void MainMenuScreen::handleEvent(const sf::Event& e) {
 	if (e.Type == sf::Event::KeyPressed) {
@@ -30,7 +33,7 @@ void MainMenuScreen::activateSelectedButton() {
 			break;
 		case MainMenuScreen::btnExit:
 			terminate();
-			_app->Close();
+			//_app->Close();
 			break;
 	}
 

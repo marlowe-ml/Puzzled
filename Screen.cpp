@@ -12,23 +12,20 @@ Screen::Screen() : _isTerminated(false), _isInitialized(false)
  }
 
  int Screen::run() {
-	 if(!_isTerminated) {
-		 sf::Event e;
-		 while(_app->GetEvent(e)) {
-			 if (e.Type == sf::Event::Closed) {
-				 terminate();
-				 _app->Close();
-				 return EXIT_SUCCESS;
-			 } else {
-				handleEvent(e);
-			 }
-		 }
+	sf::Event e;
+	while(_app->GetEvent(e)) {
+		if (e.Type == sf::Event::Closed) {
+			terminate();
+			_app->Close();
+			return EXIT_SUCCESS;
+		} else {
+			handleEvent(e);
+		}
+	}
 		 
-		 if	(!_isTerminated)
-			update();
-		 if	(!_isTerminated)
-			present();
-	 }
+	update();
+	present();
+
 	 return EXIT_SUCCESS;
  }
 
