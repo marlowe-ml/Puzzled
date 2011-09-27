@@ -33,7 +33,7 @@ void MainMenuScreen::activateSelectedButton() {
 			break;
 		case MainMenuScreen::btnExit:
 			terminate();
-			//_app->Close();
+			_app->Close();
 			break;
 	}
 

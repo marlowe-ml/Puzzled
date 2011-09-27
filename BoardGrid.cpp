@@ -49,6 +49,11 @@ void BoardGrid::swapTiles(BoardCoordinates c1, BoardCoordinates c2) {
 
 	setTileAt(c1, t2);
 	setTileAt(c2, t1);
+
+	if (c1 == _emptyTileCoordinates)
+		_emptyTileCoordinates = c2;
+	else if (c2 == _emptyTileCoordinates)
+		_emptyTileCoordinates = c1;
 }
 
 
@@ -70,6 +75,7 @@ Tile BoardGrid::createTile(const sf::Image& image, const BoardCoordinates coords
 	int startX = coords.Column*_tileWidth;
 	int startY = coords.Row*_tileHeight;
 	sprite.SetSubRect(sf::IntRect(startX,startY,startX+_tileWidth,startY+_tileHeight));
+
 
 	startX = _boardOffsetX + coords.Column * (_tileWidth+_gridSpacing);
 	startY = _boardOffsetY + coords.Row * (_tileHeight+_gridSpacing);
@@ -119,7 +125,6 @@ bool BoardGrid::moveEmptyTileBy(int xOffset, int yOffset) {
 
 	if(_boardCoordinateArea.Contains(targetPos.Column, targetPos.Row)) {
 		swapTiles(_emptyTileCoordinates, targetPos);
-		_emptyTileCoordinates = targetPos;
 		return true;
 	}
 	return false;
