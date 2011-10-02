@@ -2,7 +2,7 @@
 
 using namespace puz;
 
-Tile::Tile(BoardCoordinates originalCoordinates, const sf::Image& image) 
+Tile::Tile(const sf::Image& image, const BoardCoordinates originalCoordinates) 
 	: sf::Sprite(image), _originalCoordinates(originalCoordinates)
 {}
 

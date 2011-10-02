@@ -38,9 +38,15 @@ void BoardGrid::setTileAt(BoardCoordinates coordinates, const Tile& tile) {
 	_tiles[coordinates.Column][coordinates.Row] = tile;
 }
 
+
+Tile& BoardGrid::tileAt(BoardCoordinates coordinates) {
+	return _tiles[coordinates.Column][coordinates.Row];
+}
+
 const Tile& BoardGrid::tileAt(BoardCoordinates coordinates) const {
 	return _tiles[coordinates.Column][coordinates.Row];
 }
+
 
 void BoardGrid::swapTiles(BoardCoordinates c1, BoardCoordinates c2) {
 	Tile t1 = tileAt(c1);
@@ -63,25 +69,39 @@ void BoardGrid::initializeTiles(const sf::Image& image) {
 	for (unsigned int x=0; x < _numColumns; x++) {
 		_tiles.push_back(TileVector());
 		for (unsigned int y=0; y < _numRows; y++) {
-			_tiles[x].push_back(createTile(image, BoardCoordinates(x,y)));
+			BoardCoordinates coords = BoardCoordinates(x,y);
+			Tile tile = Tile(image, BoardCoordinates(x,y));
+			
+			int startX = coords.Column*_tileWidth;
+			int startY = coords.Row*_tileHeight;
+			tile.SetSubRect(sf::IntRect(startX,startY,startX+_tileWidth,startY+_tileHeight));
+						
+			_tiles[x].push_back(tile);
+		}
+	}
+	
+	placeTiles();
+
+}
+
+void BoardGrid::setGridSpacing(int gridSpacing) {
+	_gridSpacing = gridSpacing;
+	placeTiles();
+}
+
+void BoardGrid::placeTiles() {
+	for (unsigned int x=0; x < _numColumns; x++) {
+		for (unsigned int y=0; y < _numRows; y++) {
+			BoardCoordinates coords = BoardCoordinates(x,y);
+			setTilePositionOnBoard(coords, tileAt(coords));
 		}
 	}
 }
 
-Tile BoardGrid::createTile(const sf::Image& image, const BoardCoordinates coords) const {
-
-	Tile tile = Tile(coords, image);
-
-	int startX = coords.Column*_tileWidth;
-	int startY = coords.Row*_tileHeight;
-	tile.SetSubRect(sf::IntRect(startX,startY,startX+_tileWidth,startY+_tileHeight));
-
-
-	startX = _boardOffsetX + coords.Column * (_tileWidth+_gridSpacing);
-	startY = _boardOffsetY + coords.Row * (_tileHeight+_gridSpacing);
+void BoardGrid::setTilePositionOnBoard(const BoardCoordinates coords, Tile& tile) {
+	int startX = _boardOffsetX + coords.Column * (_tileWidth+_gridSpacing);
+	int startY = _boardOffsetY + coords.Row * (_tileHeight+_gridSpacing);
 	tile.SetPosition((float)startX,(float)startY);
-
-	return tile;
 }
 
 void BoardGrid::randomize() {
@@ -106,7 +126,6 @@ void BoardGrid::randomize() {
 }
 
 bool BoardGrid::isSolved() const {
-
 	for (unsigned int x=0; x<_numColumns; x++) {
 		for (unsigned int y=0; y<_numRows; y++) {
 			BoardCoordinates coords(x,y);
@@ -127,7 +146,11 @@ bool BoardGrid::moveEmptyTileBy(int xOffset, int yOffset) {
 		return true;
 	}
 	return false;
-}	
+}
+
+void BoardGrid::removeEmptyTile() {
+	_emptyTileCoordinates = BoardCoordinates(-1,-1);
+}
 
 void BoardGrid::Render(sf::RenderTarget& target) const {	
 	for (unsigned int x=0; x<_numColumns; x++) {

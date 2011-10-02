@@ -10,7 +10,7 @@ class Tile : public sf::Sprite {
 	
 public:
 	
-	Tile(BoardCoordinates coordinates, const sf::Image& image);
+	Tile(const sf::Image& image, const BoardCoordinates originalCoordinates);
 	virtual ~Tile();
 		
 	inline BoardCoordinates getOriginalCoordinates() const {return _originalCoordinates;}

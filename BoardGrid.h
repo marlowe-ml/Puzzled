@@ -23,8 +23,8 @@ namespace puz {
 
 		virtual void Render(sf::RenderTarget& target) const;
 
-		inline void setGridSpacing(unsigned int val) {_gridSpacing = val;}
-
+		void setGridSpacing(int gridSpacing);
+		void removeEmptyTile();
 
 	private:
 
@@ -46,10 +46,13 @@ namespace puz {
 		Tile createTile(const sf::Image& image,  const BoardCoordinates coords) const;		
 
 		void swapTiles(BoardCoordinates c1, BoardCoordinates c2);
+		Tile& tileAt(BoardCoordinates coords);
 		const Tile& tileAt(BoardCoordinates coords) const;
 		void setTileAt(BoardCoordinates coordinates, const Tile& tile);
 
-	};
+		void setTilePositionOnBoard(const BoardCoordinates coords, Tile& tile);		
+		void BoardGrid::placeTiles();
+};
 
 }
 

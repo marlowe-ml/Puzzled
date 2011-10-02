@@ -14,7 +14,7 @@ bool GameScreen::setupBoard() {
 		return false;
 
 	_boardGrid = boost::in_place<BoardGrid>(3, 3, _boardImage); 
-	_boardGrid->randomize();
+	//_boardGrid->randomize();
 	centerBoard();
 
 	return true;
@@ -95,6 +95,8 @@ void GameScreen::move(int offsetX, int offsetY) {
 		_isSolved = _boardGrid->isSolved();
 		if (_isSolved) {
 			_labelStatus.SetText("Solved!");
+			_boardGrid->setGridSpacing(0);
+			_boardGrid->removeEmptyTile();
 		}
 	}
 }
