@@ -6,26 +6,18 @@
 
 namespace puz {
 
-class Tile : public sf::Drawable {
+class Tile : public sf::Sprite {
 	
 public:
 	
-	Tile(BoardCoordinates coordinates, const sf::Sprite& sprite);
-	Tile();
-	void init(BoardCoordinates originalCoordinates, const sf::Sprite& sprite);
+	Tile(BoardCoordinates coordinates, const sf::Image& image);
 	virtual ~Tile();
 		
-	virtual void Render(sf::RenderTarget& target) const;
 	inline BoardCoordinates getOriginalCoordinates() const {return _originalCoordinates;}
-	
-
 	void swapPosition(Tile& other);
-
 
 private:
 	BoardCoordinates _originalCoordinates;
-	sf::Sprite _sprite;
-	bool _empty;
 };
 
 }

@@ -70,19 +70,18 @@ void BoardGrid::initializeTiles(const sf::Image& image) {
 
 Tile BoardGrid::createTile(const sf::Image& image, const BoardCoordinates coords) const {
 
-	sf::Sprite sprite(image);
+	Tile tile = Tile(coords, image);
 
 	int startX = coords.Column*_tileWidth;
 	int startY = coords.Row*_tileHeight;
-	sprite.SetSubRect(sf::IntRect(startX,startY,startX+_tileWidth,startY+_tileHeight));
+	tile.SetSubRect(sf::IntRect(startX,startY,startX+_tileWidth,startY+_tileHeight));
 
 
 	startX = _boardOffsetX + coords.Column * (_tileWidth+_gridSpacing);
 	startY = _boardOffsetY + coords.Row * (_tileHeight+_gridSpacing);
-	sprite.SetPosition((float)startX,(float)startY);
+	tile.SetPosition((float)startX,(float)startY);
 
-	return Tile(coords, sprite);
-
+	return tile;
 }
 
 void BoardGrid::randomize() {
@@ -135,7 +134,7 @@ void BoardGrid::Render(sf::RenderTarget& target) const {
 		for (unsigned int y=0; y<_numRows; y++) {
 			BoardCoordinates coords(x,y);
 			if (coords != _emptyTileCoordinates)
-				tileAt(coords).Render(target);
+				target.Draw(tileAt(coords));
 		}
 	}
 }
