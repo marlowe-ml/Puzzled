@@ -32,6 +32,9 @@ void MainMenuScreen::activateSelectedButton() {
 		case MainMenuScreen::btnNewGame:
 			ScreenManager::TerminateCurrentScreenAndActivate("Game");
 			break;
+		case MainMenuScreen::btnAbout:
+			// todo
+			break;
 		case MainMenuScreen::btnExit:
 			terminate();
 			_app->Close();
@@ -52,6 +55,7 @@ void MainMenuScreen::present() {
 
 int MainMenuScreen::onInit() {	
 	_buttonList.addButton("New Game");
+	_buttonList.addButton("About");
 	_buttonList.addButton("Exit");
 	
 	const Layout & layout = ScreenManager::getLayout();

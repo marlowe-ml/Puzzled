@@ -12,7 +12,7 @@ namespace puz {
 		virtual ~MainMenuScreen();
 
 	protected:
-		enum MenuSelection {btnNewGame, btnExit, btnLength};
+		enum MenuSelection {btnNewGame, btnAbout, btnExit, btnLength};
 
 		virtual void handleEvent(const sf::Event& e);
 		virtual void update();
