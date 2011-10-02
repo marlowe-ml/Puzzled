@@ -21,6 +21,8 @@ int Puzzle::run() {
 		ScreenManager::runActiveScreen();
 		if (_app.IsOpened())
 			_app.Display();
+
+		sf::Sleep(0.1f);
 	}
 
 	ScreenManager::cleanup();

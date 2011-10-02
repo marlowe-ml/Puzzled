@@ -3,10 +3,9 @@
 
 #include "Screen.h"
 #include "Label.h"
+#include "ButtonList.h"
 
 namespace puz {
-
-	typedef std::vector<Label> vLabels;
 
 	class MainMenuScreen : public Screen {
 	public:
@@ -22,13 +21,7 @@ namespace puz {
 		virtual int onInit();
 
 	private:
-		vLabels _menuButtons;
-		int _selectedButtonIndex;
-
-		void setSelectedButton(MenuSelection selectedButton);
-		void selectPreviousButton();
-		void selectNextButton();
-
+		ButtonList _buttonList;
 		void activateSelectedButton();
 	};
 
