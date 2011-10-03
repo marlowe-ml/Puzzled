@@ -79,6 +79,9 @@ void GameScreen::handleEvent(const sf::Event& e) {
 			case sf::Key::Right:
 				move(-1,0);
 				break;
+			case sf::Key::Escape:
+				ScreenManager::activateScreen("MainMenu");
+				break;
 		}
 	}
 }

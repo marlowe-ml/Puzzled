@@ -30,7 +30,7 @@ void MainMenuScreen::handleEvent(const sf::Event& e) {
 void MainMenuScreen::activateSelectedButton() {
 	switch (_buttonList.getSelectedButton()) {
 		case MainMenuScreen::btnNewGame:
-			ScreenManager::TerminateCurrentScreenAndActivate("Game");
+			ScreenManager::activateScreen("Game");
 			break;
 		case MainMenuScreen::btnAbout:
 			// todo

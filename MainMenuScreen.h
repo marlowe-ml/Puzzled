@@ -2,7 +2,6 @@
 #define MainMenuScreen_h__
 
 #include "Screen.h"
-#include "Label.h"
 #include "ButtonList.h"
 
 namespace puz {

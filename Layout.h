@@ -2,7 +2,6 @@
 #define Layout_h__
 
 #include "utils.h"
-#include "Label.h"
 #include <SFML/Graphics.hpp>
 
 namespace puz {

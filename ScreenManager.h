@@ -13,7 +13,8 @@ namespace puz {
 	class ScreenManager  {
 	public:
 		static void init(sf::RenderWindow& app);
-		static bool TerminateCurrentScreenAndActivate(const std::string& screenId);
+		static bool terminateCurrentScreenAndActivate(const std::string& screenId);
+		static bool activateScreen(const std::string& screenId);
 		static bool runActiveScreen();
 		static void notifyScreenTerminated(const std::string& screenId);
 		static void cleanup();

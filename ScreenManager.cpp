@@ -19,13 +19,16 @@ void ScreenManager::init(sf::RenderWindow& app)
 
 const Layout& ScreenManager::getLayout() {return _screenLayout;}
 
-bool ScreenManager::TerminateCurrentScreenAndActivate(const std::string& screenId) {
+bool ScreenManager::terminateCurrentScreenAndActivate(const std::string& screenId) {
 	if (_activeScreen != NULL) {
 		_activeScreen->terminate();
 	}
-	
+	return activateScreen(screenId);
+}
+
+bool ScreenManager::activateScreen(const std::string& screenId) {
 	ScreenMap::iterator it = _screens.find(screenId);
-	
+
 	Screen* screen = 0;
 
 	if (it == _screens.end()) {
@@ -34,7 +37,7 @@ bool ScreenManager::TerminateCurrentScreenAndActivate(const std::string& screenI
 	} else {
 		screen = it->second;		
 	}
-	
+
 	if (screen != 0)
 	{
 		if (!screen->isInitialized())
@@ -43,7 +46,7 @@ bool ScreenManager::TerminateCurrentScreenAndActivate(const std::string& screenI
 		_activeScreen = screen;
 		return true;
 	}
-	
+
 	return false;
 }
 

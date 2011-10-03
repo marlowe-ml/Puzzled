@@ -14,7 +14,7 @@ int Puzzle::run() {
 	ScreenManager::init(_app);
 	ResourceManager::init();
 
-	ScreenManager::TerminateCurrentScreenAndActivate("Intro");
+	ScreenManager::terminateCurrentScreenAndActivate("Intro");
 
 	while (_app.IsOpened()) {
 		_app.Clear();
