@@ -5,7 +5,8 @@ using namespace puz;
 
 void IntroScreen::handleEvent(const sf::Event& e) {
 	if (e.Type == sf::Event::KeyPressed) {
-		ScreenManager::terminateCurrentScreenAndActivate("MainMenu");
+		terminate();
+		ScreenManager::activateScreen("MainMenu");
 	}
 }
 
