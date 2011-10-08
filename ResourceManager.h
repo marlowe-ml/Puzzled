@@ -8,11 +8,13 @@ namespace puz {
 	class ResourceManager {
 
 	public:
-		static void init();
+		static void init(sf::RenderWindow& app);
 		static sf::Font const& getFont();
+		static sf::RenderWindow* ResourceManager::getApp();
 
 	private:
 		static sf::Font _font;
+		static sf::RenderWindow* _app;
 
 	};
 

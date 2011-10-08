@@ -12,7 +12,7 @@ _app(sf::RenderWindow(sf::VideoMode(800,600,32), "Puzzle"))
 int Puzzle::run() {
 
 	ScreenManager::init(_app);
-	ResourceManager::init();
+	ResourceManager::init(_app);
 
 	ScreenManager::activateScreen("Intro");
 

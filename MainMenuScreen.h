@@ -2,7 +2,7 @@
 #define MainMenuScreen_h__
 
 #include "Screen.h"
-#include "ButtonList.h"
+#include "MainMenu.h"
 
 namespace puz {
 
@@ -11,17 +11,12 @@ namespace puz {
 		virtual ~MainMenuScreen();
 
 	protected:
-		enum MenuSelection {btnNewGame, btnAbout, btnExit, btnLength};
-
 		virtual void handleEvent(const sf::Event& e);
 		virtual void update();
 		virtual void present();
 
-		virtual int onInit();
-
 	private:
-		ButtonList _buttonList;
-		void activateSelectedButton();
+		MainMenu _mainMenu;
 	};
 
 }
