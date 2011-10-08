@@ -5,18 +5,15 @@
 #include "Layout.h"
 #include <sfml/Graphics.hpp>
 #include <map>
-#include <stack>
 
 namespace puz {
 
 	typedef std::map<std::string, Screen* > ScreenMap;
-	typedef std::stack<Screen* > ScreenStack;
 
 	class ScreenManager  {
 	public:
 		static void init(sf::RenderWindow& app);
 		static bool activateScreen(const std::string& screenId);
-		static bool activateOverlayScreen(const std::string& screenId);
 		static bool runActiveScreen();
 		static void notifyScreenTerminated(const std::string& screenId);
 		static void cleanup();
@@ -29,7 +26,6 @@ namespace puz {
 
 		static ScreenMap _screens;
 		static Screen* _activeScreen;
-		//static ScreenStack _activeScreens;
 		static bool _cleanupTerminatedScreens;
 
 		static Screen* createScreen(const std::string& screenId);

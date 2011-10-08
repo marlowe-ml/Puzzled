@@ -19,12 +19,6 @@ void ScreenManager::init(sf::RenderWindow& app)
 
 const Layout& ScreenManager::getLayout() {return _screenLayout;}
 
-bool ScreenManager::activateOverlayScreen(const std::string& screenId) {
-	// todo: use stack or simple overlay variable
-	// start by using a stack which just contains the one active screen which is currently stored in _activeScreen
-	return activateScreen(screenId);
-}
-
 bool ScreenManager::activateScreen(const std::string& screenId) {
 	ScreenMap::iterator it = _screens.find(screenId);
 
