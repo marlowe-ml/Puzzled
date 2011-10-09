@@ -32,39 +32,41 @@ void ButtonList::addButton(const std::string label, const int index) {
 	alignButtons();
 }
 
+void ButtonList::showButton(int index, bool show) {
+	LabelList::iterator it = iteratorToButton(index);
+	if (it == _buttons.end())
+		return;
 
-void ButtonList::alignButtons() {
-	float currentHeight = 0;
+	(*it).Visible = show;
 
-	// push remaining buttons down
-	for (LabelList::iterator it = _buttons.begin(); it != _buttons.end(); it++)
-	{
-		(*it).SetY(currentHeight);
-		currentHeight += (*it).GetRect().GetHeight() + _buttonMargin;
-		
-		float buttonWidth = (*it).GetRect().GetWidth();
-		if (buttonWidth > _width)
-			_width = buttonWidth;
-	}
+	if ((*it).Index == index && !show)
+		selectFirstButton();
 
-	_height = currentHeight;
-
-	centerButtonsHorizontally();
+	alignButtons();
 }
 
-/*
-void ButtonList::hideButton() {
-	
-}*/
+void ButtonList::selectFirstButton() {
+	for (LabelList::iterator it = _buttons.begin(); it != _buttons.end(); it++) {
+		if ((*it).Visible) {
+			_selectedButtonIndex = (*it).Index;
+			onSelectionChanged();
+			break;
+		}
+	}	
+}
 
 void ButtonList::selectPreviousButton() {
 	LabelList::iterator it = iteratorToButton(_selectedButtonIndex);
 	if (it == _buttons.end())
 		return;
 
-	if (it != _buttons.begin()) {
-		_selectedButtonIndex = (*(--it)).Index;
-		onSelectionChanged();
+	while (it != _buttons.begin()) {
+		--it;
+		if ((*it).Visible) {
+			_selectedButtonIndex = (*(it)).Index;
+			onSelectionChanged();
+			break;
+		}
 	}
 }
 
@@ -73,10 +75,12 @@ void ButtonList::selectNextButton() {
 	if (it == _buttons.end())
 		return;
 
-	if (++it != _buttons.end()) {
-		_selectedButtonIndex = (*it).Index;
-		onSelectionChanged();
-
+	while (++it != _buttons.end()) {
+		if ((*it).Visible) {
+			_selectedButtonIndex = (*it).Index;
+			onSelectionChanged();
+			break;
+		}
 	}
 }
 
@@ -90,13 +94,6 @@ LabelList::iterator ButtonList::iteratorToButton(int index) {
 	}
 
 	return it;
-}
-
-void ButtonList::selectFirstButton() {
-	if (!_buttons.empty()) {
-		_selectedButtonIndex = _buttons.front().Index;
-		onSelectionChanged();
-	}
 }
 
 void ButtonList::onSelectionChanged() {
@@ -116,6 +113,29 @@ sf::FloatRect ButtonList::GetRect() const {
 	return sf::FloatRect(0, 0, _width, _height);
 }
 
+void ButtonList::alignButtons() {
+	float currentHeight = 0;
+	float currentWidth = 0;
+
+	for (LabelList::iterator it = _buttons.begin(); it != _buttons.end(); it++)
+	{
+		if (!(*it).Visible)
+			continue;
+
+		(*it).SetY(currentHeight);
+		currentHeight += (*it).GetRect().GetHeight() + _buttonMargin;
+
+		float buttonWidth = (*it).GetRect().GetWidth();
+		if (buttonWidth > currentWidth)
+			currentWidth = buttonWidth;
+	}
+
+	_height = currentHeight;
+	_width = currentWidth;
+	centerButtonsHorizontally();
+}
+
+
 void ButtonList::centerButtonsHorizontally() {
 	for (LabelList::iterator it = _buttons.begin(); it!=_buttons.end(); it++) {
 		float buttonWidth = (*it).GetRect().GetWidth();
@@ -127,6 +147,7 @@ void ButtonList::centerButtonsHorizontally() {
 
 void ButtonList::Render(sf::RenderTarget& target) const {
 	for (LabelList::const_iterator it = _buttons.begin(); it!=_buttons.end(); it++) {
-		target.Draw(*it);
+		if ((*it).Visible)
+			target.Draw(*it);
 	}
 }

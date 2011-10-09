@@ -34,6 +34,7 @@ void GameScreen::addLabels() {
 
 int GameScreen::onInit() {
 	addLabels();
+	_mainMenu.setInGame(false);
 
 	if (!setupBoard())
 		return EXIT_FAILURE;
@@ -63,12 +64,14 @@ void GameScreen::present() {
 }
 
 void GameScreen::startGame() {
-	_showMenu = false;
 	_isSolved = false;
 	_numMovesTaken = 0;
 	_secondsTaken = 0;
+	_showMenu = false;
 
-	_stopWatch.Reset();	
+	_mainMenu.setInGame(true);
+
+	_stopWatch.Reset();
 	//_boardGrid->randomize();
 	_boardGrid->reset();
 	_boardGrid->setGridSpacing(_defaultGridSpacing);
@@ -92,6 +95,10 @@ void GameScreen::handleEvent(const sf::Event& e) {
 	
 	if (_showMenu) {
 		_mainMenu.handleEvent(e);
+
+		if (_mainMenu.checkWasClosed()) {
+			_showMenu = false;
+		}
 
 		switch (_mainMenu.checkLastActivatedButton()) {
 			case MainMenu::btnNewGame:
@@ -128,6 +135,7 @@ void GameScreen::handleEvent(const sf::Event& e) {
 				break;
 			case sf::Key::Escape:
 				_showMenu = true;
+				_mainMenu.selectFirst();
 				break;
 		}
 	}
@@ -152,6 +160,7 @@ void GameScreen::checkIsSolved() {
 		_labelStatus.SetText("Solved!");
 		_boardGrid->setGridSpacing(0);
 		_boardGrid->removeEmptyTile();
+		_mainMenu.setInGame(false);
 	}
 }
 
