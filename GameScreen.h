@@ -3,6 +3,7 @@
 
 #include "Screen.h"
 #include "BoardGrid.h"
+#include "MainMenu.h"
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <boost/optional/optional.hpp>
@@ -15,6 +16,9 @@ namespace puz {
 
 	class GameScreen : public Screen {
 
+	public:
+		GameScreen();
+
 	protected:
 		virtual int onInit();
 		virtual void handleEvent(const sf::Event& e);
@@ -23,15 +27,22 @@ namespace puz {
 
 	private:
 		boost::optional<BoardGrid> _boardGrid;
+		const int _defaultGridSpacing;
 		sf::Image _boardImage;
 		sf::Clock _stopWatch;
+		MainMenu _mainMenu;
+
 		float _secondsTaken;
 
 		bool setupBoard();
 		void centerBoard();
-		void initUIElements();
+		void addLabels();
 		void move(int offsetX, int offsetY);
 		void checkUpdateTimeTaken();
+		void checkIsSolved();
+
+		void startGame();
+		void resumeGame();
 
 		sf::String _labelStatus;
 		sf::String _labelMovesTaken;
@@ -40,6 +51,8 @@ namespace puz {
 		vpLabels _allLabels;
 
 		bool _isSolved;
+		bool _showMenu;
+		bool _gameStarted;
 		unsigned int _numMovesTaken;
 
 	};

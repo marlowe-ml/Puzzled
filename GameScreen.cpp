@@ -9,18 +9,19 @@
 
 using namespace puz;
 
+GameScreen::GameScreen() : _gameStarted(false), _showMenu(false), _isSolved(false), _defaultGridSpacing(3) {}
+
 bool GameScreen::setupBoard() {
 	if (!_boardImage.LoadFromFile("puzzle.jpg"))
 		return false;
 
 	_boardGrid = boost::in_place<BoardGrid>(3, 3, _boardImage); 
-	//_boardGrid->randomize();
 	centerBoard();
 
 	return true;
 }
 
-void GameScreen::initUIElements() {
+void GameScreen::addLabels() {
 	_allLabels.push_back(&_labelStatus);
 	_allLabels.push_back(&_labelMovesTaken);
 	_allLabels.push_back(&_labelTimeTaken);
@@ -29,25 +30,15 @@ void GameScreen::initUIElements() {
 		(*it)->SetFont(ResourceManager::getFont());
 		(*it)->SetColor(sf::Color(255,0,0));
 	}
-
-	_labelMovesTaken.SetText("0");
-	_labelTimeTaken.SetText("00:00:00");
-	
-	const Layout & layout = ScreenManager::getLayout();
-	layout.alignLabel(_labelMovesTaken, utl::Direction::right, utl::Direction::top);
-	layout.alignLabel(_labelTimeTaken, utl::Direction::center, utl::Direction::top);
 }
 
 int GameScreen::onInit() {
-	_isSolved = false; 
-	_numMovesTaken = 0;
-	_secondsTaken = 0;
+	addLabels();
 
 	if (!setupBoard())
 		return EXIT_FAILURE;
 
-	initUIElements();
-	_stopWatch.Reset();	
+	_showMenu = true;
 
 	return EXIT_SUCCESS;
 }
@@ -58,13 +49,69 @@ void GameScreen::update() {
 
 void GameScreen::present() {
 
-	for (vpLabels::iterator it = _allLabels.begin(); it!=_allLabels.end(); it++) {
-		_app->Draw(*(*it));
+	if (_gameStarted) {
+		for (vpLabels::iterator it = _allLabels.begin(); it!=_allLabels.end(); it++) {
+			_app->Draw(*(*it));
+		}
+		_app->Draw(*_boardGrid);
 	}
-	_app->Draw(*_boardGrid);
+
+	if (_showMenu) {
+		_app->Draw(_mainMenu);
+	}
+
+}
+
+void GameScreen::startGame() {
+	_showMenu = false;
+	_isSolved = false;
+	_numMovesTaken = 0;
+	_secondsTaken = 0;
+
+	_stopWatch.Reset();	
+	//_boardGrid->randomize();
+	_boardGrid->reset();
+	_boardGrid->setGridSpacing(_defaultGridSpacing);
+
+	_labelMovesTaken.SetText("0");
+	_labelTimeTaken.SetText("00:00:00");
+	_labelStatus.SetText("");
+
+	const Layout & layout = ScreenManager::getLayout();
+	layout.alignLabel(_labelMovesTaken, utl::Direction::right, utl::Direction::top);
+	layout.alignLabel(_labelTimeTaken, utl::Direction::center, utl::Direction::top);
+
+	_gameStarted = true;
+}
+
+void GameScreen::resumeGame() {
+	_showMenu = false;
 }
 
 void GameScreen::handleEvent(const sf::Event& e) {
+	
+	if (_showMenu) {
+		_mainMenu.handleEvent(e);
+
+		switch (_mainMenu.checkLastActivatedButton()) {
+			case MainMenu::btnNewGame:
+				startGame();
+				break;
+			case MainMenu::btnResumeGame:
+				resumeGame();
+				break;
+			case MainMenu::btnAbout:
+				// todo
+				break;
+			case MainMenu::btnExit:
+				ResourceManager::getApp()->Close();
+				break;
+		}
+
+		return;
+	}
+
+
 	if (e.Type == sf::Event::KeyPressed) {
 		switch(e.Key.Code) {
 			case sf::Key::Up:
@@ -80,7 +127,7 @@ void GameScreen::handleEvent(const sf::Event& e) {
 				move(-1,0);
 				break;
 			case sf::Key::Escape:
-				ScreenManager::activateScreen("MainMenu");
+				_showMenu = true;
 				break;
 		}
 	}
@@ -95,12 +142,16 @@ void GameScreen::move(int offsetX, int offsetY) {
 		_labelMovesTaken.SetText(boost::lexical_cast<std::string>(_numMovesTaken));
 		ScreenManager::getLayout().alignLabel(_labelMovesTaken, utl::Direction::right, utl::Direction::top);
 
-		_isSolved = _boardGrid->isSolved();
-		if (_isSolved) {
-			_labelStatus.SetText("Solved!");
-			_boardGrid->setGridSpacing(0);
-			_boardGrid->removeEmptyTile();
-		}
+		checkIsSolved();
+	}
+}
+
+void GameScreen::checkIsSolved() {
+	_isSolved = _boardGrid->isSolved();
+	if (_isSolved) {
+		_labelStatus.SetText("Solved!");
+		_boardGrid->setGridSpacing(0);
+		_boardGrid->removeEmptyTile();
 	}
 }
 

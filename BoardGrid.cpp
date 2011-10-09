@@ -5,7 +5,7 @@
 using namespace puz;
 
 
-BoardGrid::BoardGrid(unsigned int numColumns, unsigned int numRows, const sf::Image& image) 
+BoardGrid::BoardGrid(unsigned int numColumns, unsigned int numRows, const sf::Image& image) : _image(image)
 {
 	_numColumns=numColumns; 
 	_numRows=numRows; 
@@ -16,8 +16,6 @@ BoardGrid::BoardGrid(unsigned int numColumns, unsigned int numRows, const sf::Im
 	_tileHeight = (image.GetHeight() / numRows);
 	_boardOffsetX=0;
 	_boardOffsetY=0;
-	
-	initializeTiles(image);
 }
 
 unsigned int BoardGrid::getWidth() const {
@@ -64,6 +62,7 @@ void BoardGrid::swapTiles(BoardCoordinates c1, BoardCoordinates c2) {
 
 
 void BoardGrid::initializeTiles(const sf::Image& image) {
+	_tiles.clear();
 	_tiles.reserve(_numColumns);
 
 	for (unsigned int x=0; x < _numColumns; x++) {
@@ -96,6 +95,11 @@ void BoardGrid::placeTiles() {
 			setTilePositionOnBoard(coords, tileAt(coords));
 		}
 	}
+}
+
+void BoardGrid::reset() {
+	initializeTiles(_image);	
+	_emptyTileCoordinates = BoardCoordinates(_numColumns-1,_numRows-1);
 }
 
 void BoardGrid::setTilePositionOnBoard(const BoardCoordinates coords, Tile& tile) {

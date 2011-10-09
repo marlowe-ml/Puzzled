@@ -1,7 +1,6 @@
 #include "ScreenManager.h"
 #include "IntroScreen.h"
 #include "GameScreen.h"
-#include "MainMenuScreen.h"
 
 using namespace puz;
 
@@ -62,9 +61,6 @@ Screen* ScreenManager::createScreen(const std::string& screenId) {
 	
 	if (screenId == "Game")
 		newScreen = new GameScreen();
-
-	if (screenId == "MainMenu")
-		newScreen = new MainMenuScreen();
 
 	if (newScreen != 0)
 		newScreen->setScreenId(screenId);

@@ -25,10 +25,12 @@ namespace puz {
 
 		void setGridSpacing(int gridSpacing);
 		void removeEmptyTile();
+		void reset();
 
 	private:
 
 		TileVector2D _tiles;
+		const sf::Image& _image;
 
 		unsigned int _numColumns;
 		unsigned int _numRows;
