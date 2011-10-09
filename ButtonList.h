@@ -5,14 +5,28 @@
 
 namespace puz {
 
-typedef std::vector<sf::String> vLabels;
+class MenuButton : public sf::String {
+public:
+	MenuButton() : Index(0) 
+	{}
 
+	MenuButton(const std::string& label, const int index) : sf::String(label), Index(index) 
+	{}
+
+	operator int() const {
+		return Index;
+	}
+
+	int Index;
+};
+
+typedef std::vector<MenuButton> vLabels;
 
 class ButtonList : public sf::Drawable {
 
 public:
 	ButtonList();
-	void addButton(const std::string label);
+	void addButton(const std::string label, int index);
 	void setSelectedButton(int index);
 	int getSelectedButton() const;
 	void selectPreviousButton();

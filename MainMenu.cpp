@@ -6,16 +6,23 @@
 using namespace puz;
 
 MainMenu::MainMenu() {
-	_buttonList.addButton("Resume Game");
-	_buttonList.addButton("New Game");
-	_buttonList.addButton("About");
-	_buttonList.addButton("Exit");
+	_buttonList.addButton("Resume Game", MainMenu::btnResumeGame);
+	_buttonList.addButton("New Game", MainMenu::btnNewGame);
+	_buttonList.addButton("About", MainMenu::btnAbout);
+	_buttonList.addButton("Exit", MainMenu::btnExit);
 
 	const Layout & layout = ScreenManager::getLayout();
 	sf::Vector2f centerPos = layout.getAlignedPosition(_buttonList.GetRect(), utl::Direction::center, utl::Direction::center);
 	_buttonList.SetPosition(centerPos);
 	_buttonList.setSelectedButton(1);
 }
+
+
+/*
+void MainMenu::hideButton() {
+	
+
+}*/
 
 void MainMenu::Render(sf::RenderTarget& target) const {
 	target.Draw(_buttonList);

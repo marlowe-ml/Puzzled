@@ -5,8 +5,8 @@ using namespace puz;
 
 ButtonList::ButtonList() : _height(0), _width(0), _buttonMargin(10) {}
 
-void ButtonList::addButton(const std::string label) {
-	sf::String button(label);
+void ButtonList::addButton(const std::string label, const int index) {
+	MenuButton button(label, index);
 	button.SetFont(ResourceManager::getFont());
 	button.SetColor(sf::Color(255,255,255));
 	button.SetY(_height);
