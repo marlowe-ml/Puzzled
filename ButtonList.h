@@ -2,6 +2,7 @@
 #define ButtonList_h__
 
 #include <SFML/Graphics.hpp>
+#include <list>
 
 namespace puz {
 
@@ -20,14 +21,14 @@ public:
 	int Index;
 };
 
-typedef std::vector<MenuButton> vLabels;
+typedef std::list<MenuButton> LabelList;
 
 class ButtonList : public sf::Drawable {
 
 public:
 	ButtonList();
 	void addButton(const std::string label, int index);
-	void setSelectedButton(int index);
+	void selectFirstButton();
 	int getSelectedButton() const;
 	void selectPreviousButton();
 	void selectNextButton();
@@ -36,19 +37,17 @@ public:
 	sf::FloatRect GetRect() const;
 
 private:
-	vLabels _buttons;
+	LabelList _buttons;
+	int _selectedButtonIndex;
 
 	float _height;
 	float _width;
 	float _buttonMargin;
 
+	void alignButtons();
 	void centerButtonsHorizontally();
-
-	int _selectedButtonIndex;
-
-
-
-	
+	void onSelectionChanged();
+	LabelList::iterator ButtonList::iteratorToButton(int index);
 
 };
 
