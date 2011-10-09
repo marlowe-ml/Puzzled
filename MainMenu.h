@@ -15,10 +15,14 @@ public:
 	virtual void Render(sf::RenderTarget& target) const;
 	void handleEvent(const sf::Event& e);
 	MenuSelection checkLastActivatedButton();
+	bool checkWasClosed();
+	void setInGame(bool val);
+	void selectFirst();	
 
 private:
 	
 	MenuSelection _lastActivatedButton;
+	bool _wasClosed;
 	ButtonList _buttonList;
 	void activateSelectedButton();
 	

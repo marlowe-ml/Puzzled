@@ -5,7 +5,7 @@
 
 using namespace puz;
 
-MainMenu::MainMenu() {
+MainMenu::MainMenu() : _wasClosed(false) {
 	_buttonList.addButton("New Game", MainMenu::btnNewGame);
 	_buttonList.addButton("Resume Game", MainMenu::btnResumeGame);
 	_buttonList.addButton("About", MainMenu::btnAbout);
@@ -17,12 +17,6 @@ MainMenu::MainMenu() {
 	_buttonList.selectFirstButton();
 }
 
-
-/*
-void MainMenu::hideButton() {
-	
-
-}*/
 
 void MainMenu::Render(sf::RenderTarget& target) const {
 	target.Draw(_buttonList);
@@ -41,6 +35,9 @@ void MainMenu::handleEvent(const sf::Event& e) {
 		case sf::Key::Space:
 			activateSelectedButton();
 			break;
+		case sf::Key::Escape:
+			_wasClosed = true;
+			break;
 		}		
 	}
 }
@@ -51,7 +48,21 @@ MainMenu::MenuSelection MainMenu::checkLastActivatedButton() {
 	return last;
 }
 
+bool MainMenu::checkWasClosed() {
+	bool closed = _wasClosed;
+	_wasClosed = false;
+	return closed;
+}
+
 void MainMenu::activateSelectedButton() {
 	_lastActivatedButton = static_cast<MainMenu::MenuSelection>(_buttonList.getSelectedButton());
 }
 
+void MainMenu::setInGame(bool inGame) {
+	_buttonList.showButton(MainMenu::btnResumeGame, inGame);
+	_buttonList.showButton(MainMenu::btnNewGame, !inGame);
+}
+
+void MainMenu::selectFirst() {
+	_buttonList.selectFirstButton();
+}

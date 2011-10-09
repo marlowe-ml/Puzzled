@@ -8,7 +8,7 @@ namespace puz {
 
 class MenuButton : public sf::String {
 public:
-	MenuButton() : Index(0) 
+	MenuButton() : Index(0), Visible(true)
 	{}
 
 	MenuButton(const std::string& label, const int index) : sf::String(label), Index(index) 
@@ -19,6 +19,7 @@ public:
 	}
 
 	int Index;
+	bool Visible;
 };
 
 typedef std::list<MenuButton> LabelList;
@@ -28,6 +29,7 @@ class ButtonList : public sf::Drawable {
 public:
 	ButtonList();
 	void addButton(const std::string label, int index);
+	void showButton(int index, bool show);
 	void selectFirstButton();
 	int getSelectedButton() const;
 	void selectPreviousButton();
