@@ -16,6 +16,8 @@ BoardGrid::BoardGrid(unsigned int numColumns, unsigned int numRows, const sf::Im
 	_tileHeight = (image.GetHeight() / numRows);
 	_boardOffsetX=0;
 	_boardOffsetY=0;
+
+	reset();
 }
 
 unsigned int BoardGrid::getWidth() const {
