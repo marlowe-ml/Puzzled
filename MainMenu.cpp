@@ -5,7 +5,7 @@
 
 using namespace puz;
 
-MainMenu::MainMenu() : _wasClosed(false) {
+MainMenu::MainMenu() : _wasClosed(false), _initialMenu(true) {
 	_buttonList.addButton("New Game", MainMenu::btnNewGame);
 	_buttonList.addButton("Resume Game", MainMenu::btnResumeGame);
 	_buttonList.addButton("About", MainMenu::btnAbout);
@@ -19,6 +19,17 @@ MainMenu::MainMenu() : _wasClosed(false) {
 
 
 void MainMenu::Render(sf::RenderTarget& target) const {
+	sf::FloatRect rect = _buttonList.GetRect();
+	float x = _buttonList.GetPosition().x;
+	float y = _buttonList.GetPosition().y;
+
+	float x1 = x - 20;
+	float y1 = y - 20;
+	float x2 = x + rect.Right + 20;
+	float y2 = y + rect.Bottom + 20;
+
+	sf::Shape background = sf::Shape::Rectangle(x1, y1, x2, y2, sf::Color(128,0,0,128), 1.0f, sf::Color(255,255,255,128));
+	target.Draw(background);
 	target.Draw(_buttonList);
 }
 
@@ -36,7 +47,9 @@ void MainMenu::handleEvent(const sf::Event& e) {
 			activateSelectedButton();
 			break;
 		case sf::Key::Escape:
-			_wasClosed = true;
+			if (!_initialMenu) {
+				_wasClosed = true;
+			}
 			break;
 		}		
 	}
@@ -59,6 +72,9 @@ void MainMenu::activateSelectedButton() {
 }
 
 void MainMenu::setInGame(bool inGame) {
+	if (inGame)
+		_initialMenu = false;
+
 	_buttonList.showButton(MainMenu::btnResumeGame, inGame);
 	_buttonList.showButton(MainMenu::btnNewGame, !inGame);
 }

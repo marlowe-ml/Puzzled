@@ -23,6 +23,7 @@ private:
 	
 	MenuSelection _lastActivatedButton;
 	bool _wasClosed;
+	bool _initialMenu;
 	ButtonList _buttonList;
 	void activateSelectedButton();
 	

@@ -54,7 +54,9 @@ void GameScreen::present() {
 		for (vpLabels::iterator it = _allLabels.begin(); it!=_allLabels.end(); it++) {
 			_app->Draw(*(*it));
 		}
-		_app->Draw(*_boardGrid);
+		if (!_showMenu || _isSolved) {
+			_app->Draw(*_boardGrid);
+		}
 	}
 
 	if (_showMenu) {
