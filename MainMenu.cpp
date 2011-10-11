@@ -15,6 +15,11 @@ MainMenu::MainMenu() : _wasClosed(false), _initialMenu(true) {
 
 
 void MainMenu::Render(sf::RenderTarget& target) const {
+	sf::Color screenColor = sf::Color(0,0,0,128);
+	sf::FloatRect screenRect = ScreenManager::getLayout().GetRect();
+	sf::Shape screenBg = sf::Shape::Rectangle(screenRect.Left, screenRect.Top, screenRect.Right, screenRect.Bottom, screenColor);
+	target.Draw(screenBg);
+
 	sf::FloatRect rect = _buttonList.GetRect();
 	float x = _buttonList.GetPosition().x;
 	float y = _buttonList.GetPosition().y;

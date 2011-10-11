@@ -17,6 +17,10 @@ void Layout::alignLabel(sf::String& label, utl::Direction::e hSnap, utl::Directi
 	label.SetPosition(pos);
 }
 
+const sf::FloatRect Layout::GetRect() const {
+	return _areaRect;
+}
+
 sf::Vector2f Layout::getAlignedPosition(sf::FloatRect objArea, utl::Direction::e hSnap, utl::Direction::e vSnap) const {
 	sf::Vector2f newPos(objArea.Left, objArea.Top);
 	
