@@ -1,5 +1,8 @@
 #include "ButtonList.h"
 #include "ResourceManager.h"
+#include "ScreenManager.h"
+#include "Layout.h"
+#include "utils.h"
 
 using namespace puz;
 
@@ -29,7 +32,7 @@ void ButtonList::addButton(const std::string label, const int index) {
 	else
 		_buttons.insert(it, button);
 
-	alignButtons();
+	align();
 }
 
 void ButtonList::showButton(int index, bool show) {
@@ -42,7 +45,7 @@ void ButtonList::showButton(int index, bool show) {
 	if ((*it).Index == index && !show)
 		selectFirstButton();
 
-	alignButtons();
+	align();
 }
 
 void ButtonList::selectFirstButton() {
@@ -113,7 +116,7 @@ sf::FloatRect ButtonList::GetRect() const {
 	return sf::FloatRect(0, 0, _width, _height);
 }
 
-void ButtonList::alignButtons() {
+void ButtonList::align() {
 	float currentHeight = 0;
 	float currentWidth = 0;
 
@@ -133,6 +136,10 @@ void ButtonList::alignButtons() {
 	_height = currentHeight;
 	_width = currentWidth;
 	centerButtonsHorizontally();
+
+	const Layout & layout = ScreenManager::getLayout();
+	sf::Vector2f centerPos = layout.getAlignedPosition(GetRect(), utl::Direction::center, utl::Direction::center);
+	SetPosition(centerPos);
 }
 
 

@@ -10,10 +10,6 @@ MainMenu::MainMenu() : _wasClosed(false), _initialMenu(true) {
 	_buttonList.addButton("Resume Game", MainMenu::btnResumeGame);
 	_buttonList.addButton("About", MainMenu::btnAbout);
 	_buttonList.addButton("Exit", MainMenu::btnExit);
-
-	const Layout & layout = ScreenManager::getLayout();
-	sf::Vector2f centerPos = layout.getAlignedPosition(_buttonList.GetRect(), utl::Direction::center, utl::Direction::center);
-	_buttonList.SetPosition(centerPos);
 	_buttonList.selectFirstButton();
 }
 
@@ -28,7 +24,7 @@ void MainMenu::Render(sf::RenderTarget& target) const {
 	float x2 = x + rect.Right + 20;
 	float y2 = y + rect.Bottom + 20;
 
-	sf::Shape background = sf::Shape::Rectangle(x1, y1, x2, y2, sf::Color(128,0,0,128), 1.0f, sf::Color(255,255,255,128));
+	sf::Shape background = sf::Shape::Rectangle(x1, y1, x2, y2, sf::Color(64,0,0,192), 1.0f, sf::Color(255,255,255,128));
 	target.Draw(background);
 	target.Draw(_buttonList);
 }

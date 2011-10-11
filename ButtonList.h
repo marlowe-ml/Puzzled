@@ -46,7 +46,7 @@ private:
 	float _width;
 	float _buttonMargin;
 
-	void alignButtons();
+	void align();
 	void centerButtonsHorizontally();
 	void onSelectionChanged();
 	LabelList::iterator ButtonList::iteratorToButton(int index);

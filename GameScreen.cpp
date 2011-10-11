@@ -9,7 +9,10 @@
 
 using namespace puz;
 
-GameScreen::GameScreen() : _gameStarted(false), _showMenu(false), _isSolved(false), _defaultGridSpacing(3) {}
+GameScreen::GameScreen() 
+	: _gameStarted(false), _showMenu(false), _isSolved(false), _defaultGridSpacing(3), 
+	_timeLastPaused(0), _totalTimePaused(0)
+{}
 
 bool GameScreen::setupBoard() {
 	if (!_boardImage.LoadFromFile("puzzle.jpg"))
@@ -39,13 +42,14 @@ int GameScreen::onInit() {
 	if (!setupBoard())
 		return EXIT_FAILURE;
 
-	_showMenu = true;
+	showMenu();
 
 	return EXIT_SUCCESS;
 }
 
 void GameScreen::update() {
-	checkUpdateTimeTaken();
+	if (!_showMenu && !_isSolved)
+		checkUpdateTimeTaken();
 }
 
 void GameScreen::present() {
@@ -74,6 +78,9 @@ void GameScreen::startGame() {
 	_mainMenu.setInGame(true);
 
 	_stopWatch.Reset();
+	_timeLastPaused = 0;
+	_totalTimePaused = 0;
+
 	//_boardGrid->randomize();
 	_boardGrid->reset();
 	_boardGrid->setGridSpacing(_defaultGridSpacing);
@@ -89,8 +96,16 @@ void GameScreen::startGame() {
 	_gameStarted = true;
 }
 
-void GameScreen::resumeGame() {
+void GameScreen::hideMenu() {
 	_showMenu = false;
+	_totalTimePaused += _stopWatch.GetElapsedTime() - _timeLastPaused;
+}
+
+void GameScreen::showMenu() {
+	_showMenu = true;
+	_timeLastPaused = _stopWatch.GetElapsedTime();
+
+	_mainMenu.selectFirst();
 }
 
 void GameScreen::handleEvent(const sf::Event& e) {
@@ -99,7 +114,7 @@ void GameScreen::handleEvent(const sf::Event& e) {
 		_mainMenu.handleEvent(e);
 
 		if (_mainMenu.checkWasClosed()) {
-			_showMenu = false;
+			hideMenu();
 		}
 
 		switch (_mainMenu.checkLastActivatedButton()) {
@@ -107,7 +122,7 @@ void GameScreen::handleEvent(const sf::Event& e) {
 				startGame();
 				break;
 			case MainMenu::btnResumeGame:
-				resumeGame();
+				hideMenu();
 				break;
 			case MainMenu::btnAbout:
 				// todo
@@ -136,8 +151,7 @@ void GameScreen::handleEvent(const sf::Event& e) {
 				move(-1,0);
 				break;
 			case sf::Key::Escape:
-				_showMenu = true;
-				_mainMenu.selectFirst();
+				showMenu();
 				break;
 		}
 	}
@@ -168,7 +182,7 @@ void GameScreen::checkIsSolved() {
 
 void GameScreen::checkUpdateTimeTaken() {
 
-	float newSecondsTaken = _stopWatch.GetElapsedTime();
+	float newSecondsTaken = _stopWatch.GetElapsedTime() - _totalTimePaused;
 	if (newSecondsTaken != _secondsTaken) {
 		int totalSeconds = static_cast<int>(newSecondsTaken);
 

@@ -42,7 +42,8 @@ namespace puz {
 		void checkIsSolved();
 
 		void startGame();
-		void resumeGame();
+		void showMenu();
+		void hideMenu();
 
 		sf::String _labelStatus;
 		sf::String _labelMovesTaken;
@@ -53,6 +54,8 @@ namespace puz {
 		bool _isSolved;
 		bool _showMenu;
 		bool _gameStarted;
+		float _timeLastPaused;
+		float _totalTimePaused;
 		unsigned int _numMovesTaken;
 
 	};
