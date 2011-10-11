@@ -6,7 +6,7 @@ sf::Font ResourceManager::_font;
 sf::RenderWindow* ResourceManager::_app;
 
 void ResourceManager::init(sf::RenderWindow& app) {
-	ResourceManager::_font.LoadFromFile("arial.ttf");
+	ResourceManager::_font.LoadFromFile("Arial.ttf");
 	_app = &app;
 }
 

@@ -2,6 +2,7 @@
 #define IntroScreen_h__
 
 #include "Screen.h"
+#include <SFML/Graphics.hpp>
 
 namespace puz {
 	class IntroScreen : public Screen {
@@ -12,6 +13,10 @@ namespace puz {
 		virtual void present();
 
 		virtual int onInit();
+
+	private:
+		sf::Image _logo;
+		sf::Sprite _logoSprite;
 
 	};
 
