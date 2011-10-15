@@ -35,7 +35,7 @@ void GameScreen::addLabels() {
 	}
 }
 
-int GameScreen::onInit() {
+int GameScreen::onInit() {	
 	addLabels();
 	_mainMenu.setInGame(false);
 
@@ -90,8 +90,8 @@ void GameScreen::startGame() {
 	_labelStatus.SetText("");
 
 	const Layout & layout = ScreenManager::getLayout();
-	layout.alignLabel(_labelMovesTaken, utl::Direction::right, utl::Direction::top);
-	layout.alignLabel(_labelTimeTaken, utl::Direction::center, utl::Direction::top);
+	layout.alignString(_labelMovesTaken, utl::Direction::right, utl::Direction::top);
+	layout.alignString(_labelTimeTaken, utl::Direction::center, utl::Direction::top);
 
 	_gameStarted = true;
 }
@@ -104,7 +104,6 @@ void GameScreen::hideMenu() {
 void GameScreen::showMenu() {
 	_showMenu = true;
 	_timeLastPaused = _stopWatch.GetElapsedTime();
-
 	_mainMenu.selectFirst();
 }
 
@@ -164,7 +163,7 @@ void GameScreen::move(int offsetX, int offsetY) {
 		_numMovesTaken++;
 
 		_labelMovesTaken.SetText(boost::lexical_cast<std::string>(_numMovesTaken));
-		ScreenManager::getLayout().alignLabel(_labelMovesTaken, utl::Direction::right, utl::Direction::top);
+		ScreenManager::getLayout().alignString(_labelMovesTaken, utl::Direction::right, utl::Direction::top);
 
 		checkIsSolved();
 	}
@@ -216,6 +215,6 @@ void GameScreen::checkUpdateTimeTaken() {
 
 void GameScreen::centerBoard() {
 	const Layout& layout = ScreenManager::getLayout();
-	sf::Vector2f pos = layout.getAlignedPosition(_boardGrid->getRect(), utl::Direction::center, utl::Direction::center);
+	sf::Vector2f pos = layout.getAlignedPosition(_boardGrid->getSize(), utl::Direction::center, utl::Direction::center);
 	_boardGrid->SetPosition(pos);
 }

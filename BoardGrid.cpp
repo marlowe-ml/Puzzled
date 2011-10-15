@@ -28,9 +28,8 @@ unsigned int BoardGrid::getHeight() const {
 	return _numRows * (_tileHeight + _gridSpacing) - _gridSpacing;
 }
 
-sf::FloatRect BoardGrid::getRect() const {
-	sf::Vector2f pos = GetPosition();
-	return sf::FloatRect(pos.x, pos.y, pos.x + getWidth(), pos.y + getHeight());
+sf::Vector2f BoardGrid::getSize() const {
+	return sf::Vector2f(getWidth(), getHeight());
 }
 
 

@@ -16,7 +16,7 @@ namespace puz {
 		BoardGrid(unsigned int numColumns, unsigned int numRows, const sf::Image& image);
 		unsigned int getWidth() const;
 		unsigned int getHeight() const;
-		sf::FloatRect getRect() const;
+		sf::Vector2f getSize() const;
 		void randomize();
 		bool isSolved() const;
 		bool moveEmptyTileBy(int xOffset, int yOffset);

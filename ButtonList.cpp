@@ -138,7 +138,7 @@ void ButtonList::align() {
 	centerButtonsHorizontally();
 
 	const Layout & layout = ScreenManager::getLayout();
-	sf::Vector2f centerPos = layout.getAlignedPosition(GetRect(), utl::Direction::center, utl::Direction::center);
+	sf::Vector2f centerPos = layout.getAlignedPosition(sf::Vector2f(_width,_height), utl::Direction::center, utl::Direction::center);
 	SetPosition(centerPos);
 }
 

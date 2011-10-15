@@ -11,6 +11,10 @@ MainMenu::MainMenu() : _wasClosed(false), _initialMenu(true) {
 	_buttonList.addButton("About", MainMenu::btnAbout);
 	_buttonList.addButton("Exit", MainMenu::btnExit);
 	_buttonList.selectFirstButton();
+
+	_logoSprite.SetImage(ResourceManager::getImage("logo.png"));
+	ScreenManager::getLayout().alignSprite(_logoSprite, utl::Direction::center, utl::Direction::none);
+	_logoSprite.SetY(_buttonList.GetPosition().y - 30 - _logoSprite.GetSize().y);
 }
 
 
@@ -32,6 +36,7 @@ void MainMenu::Render(sf::RenderTarget& target) const {
 	sf::Shape background = sf::Shape::Rectangle(x1, y1, x2, y2, sf::Color(64,0,0,192), 1.0f, sf::Color(255,255,255,128));
 	target.Draw(background);
 	target.Draw(_buttonList);
+	target.Draw(_logoSprite);
 }
 
 void MainMenu::handleEvent(const sf::Event& e) {

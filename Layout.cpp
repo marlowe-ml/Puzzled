@@ -12,20 +12,32 @@ Layout::Layout(sf::FloatRect areaRect)
 : _areaRect(areaRect)
 {}
 
-void Layout::alignLabel(sf::String& label, utl::Direction::e hSnap, utl::Direction::e vSnap) const {
-	sf::Vector2f pos = getAlignedPosition(label.GetRect(), hSnap, vSnap);
-	label.SetPosition(pos);
-}
-
 const sf::FloatRect Layout::GetRect() const {
 	return _areaRect;
 }
 
-sf::Vector2f Layout::getAlignedPosition(sf::FloatRect objArea, utl::Direction::e hSnap, utl::Direction::e vSnap) const {
-	sf::Vector2f newPos(objArea.Left, objArea.Top);
+void Layout::alignString(sf::String& obj, utl::Direction::e hSnap, utl::Direction::e vSnap) const {
+	sf::FloatRect rect = obj.GetRect();
+	sf::Vector2f size = sf::Vector2f(rect.Right - rect.Left, rect.Bottom - rect.Top);
+	alignDrawable(obj, size, hSnap, vSnap);
+}
+
+void Layout::alignSprite(sf::Sprite& obj, utl::Direction::e hSnap, utl::Direction::e vSnap) const {
+	alignDrawable(obj, obj.GetSize(), hSnap, vSnap);
+}
+
+
+void Layout::alignDrawable(sf::Drawable& obj, sf::Vector2f size, utl::Direction::e hSnap, utl::Direction::e vSnap) const {
+	sf::Vector2f centerPos = getAlignedPosition(size, hSnap, vSnap);
+	obj.SetX(centerPos.x);
+	obj.SetY(centerPos.y);
+}
+
+sf::Vector2f Layout::getAlignedPosition(sf::Vector2f objSize, utl::Direction::e hSnap, utl::Direction::e vSnap) const {
+	sf::Vector2f newPos(0, 0);
 	
-	float objWidth = objArea.GetWidth();
-	float objHeight = objArea.GetHeight();
+	float objWidth = objSize.x;
+	float objHeight = objSize.y;
 
 	switch (hSnap) {
 		case utl::Direction::left:

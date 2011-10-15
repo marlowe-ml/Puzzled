@@ -20,7 +20,8 @@ public:
 	void selectFirst();	
 
 private:
-	
+	sf::Sprite _logoSprite;
+
 	MenuSelection _lastActivatedButton;
 	bool _wasClosed;
 	bool _initialMenu;
