@@ -13,8 +13,6 @@ MainMenu::MainMenu() : _wasClosed(false), _initialMenu(true) {
 	_buttonList.selectFirstButton();
 
 	_logoSprite.SetImage(ResourceManager::getImage("logo.png"));
-	ScreenManager::getLayout().alignSprite(_logoSprite, utl::Direction::center, utl::Direction::none);
-	_logoSprite.SetY(_buttonList.GetPosition().y - 30 - _logoSprite.GetSize().y);
 }
 
 
@@ -82,7 +80,9 @@ void MainMenu::setInGame(bool inGame) {
 		_initialMenu = false;
 
 	_buttonList.showButton(MainMenu::btnResumeGame, inGame);
-	_buttonList.showButton(MainMenu::btnNewGame, !inGame);
+
+	ScreenManager::getLayout().alignSprite(_logoSprite, utl::Direction::center, utl::Direction::none);
+	_logoSprite.SetY(_buttonList.GetPosition().y - 50 - _logoSprite.GetSize().y);
 }
 
 void MainMenu::selectFirst() {
