@@ -124,7 +124,7 @@ void GameScreen::handleEvent(const sf::Event& e) {
 				hideMenu();
 				break;
 			case MainMenu::btnAbout:
-				// todo
+				ScreenManager::activateScreen("About");
 				break;
 			case MainMenu::btnExit:
 				ResourceManager::getApp()->Close();
