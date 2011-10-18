@@ -16,6 +16,7 @@ namespace puz {
 
 	private:
 		sf::Sprite _logoSprite;
+		sf::String _pressKeyLabel;
 
 	};
 

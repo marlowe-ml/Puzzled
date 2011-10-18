@@ -58,9 +58,8 @@ void GameScreen::present() {
 		for (vpLabels::iterator it = _allLabels.begin(); it!=_allLabels.end(); it++) {
 			_app->Draw(*(*it));
 		}
-		if (!_showMenu || _isSolved) {
-			_app->Draw(*_boardGrid);
-		}
+
+		_app->Draw(*_boardGrid);
 	}
 
 	if (_showMenu) {
@@ -81,8 +80,7 @@ void GameScreen::startGame() {
 	_timeLastPaused = 0;
 	_totalTimePaused = 0;
 
-	//_boardGrid->randomize();
-	_boardGrid->reset();
+	_boardGrid->randomize();
 	_boardGrid->setGridSpacing(_defaultGridSpacing);
 
 	_labelMovesTaken.SetText("0");
